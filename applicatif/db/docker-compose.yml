@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: db_dice_game
+    restart: always
+    environment:
+      - POSTGRES_DATABASE=dice_game
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./sql/database.sql:/docker-entrypoint-initdb.d/01_database.sql:ro
+      - ./sql/tables.sql:/docker-entrypoint-initdb.d/02_tables.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "/healthchecks/postgres.sh"]
+      interval: 5s
+      timeout: 3s
+      retries: 5

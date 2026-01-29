@@ -1,0 +1,1 @@
+CREATE DATABASE dice_game;
